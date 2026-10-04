@@ -1,8 +1,8 @@
-# 接觸重建與成功案例分析的復現方法
+# Reproducing Contact Reconstruction and Successful Case Analysis
 
-分析可以直接重跑；完整重建與新 PPO 訓練則需要本地取得的原始資料、MANO、MuJoCo robot、指定 dex-rl 分支與 Isaac 環境。這些資產未打包在 repo 中。
+The analysis can be rerun directly. Full reconstruction and new PPO training require locally obtained raw data, MANO, a MuJoCo robot, the specified dex-rl branch, and an Isaac environment. These assets are not bundled in this repository.
 
-## 重跑公開成功案例
+## Rerun the Published Successful Case
 
 ```bash
 python -m pip install -e '.[test]'
@@ -10,9 +10,9 @@ python -m analysis.successful_screwdriver
 python -m pytest -q
 ```
 
-入口會檢查拿取子條件與輸入 SHA256，然後重算物體座標中的接觸、同步標籤覆蓋、持握區域距離和圖。沒有同指預測區域時，距離為 null，不是零。輸出為 `results/screwdriver_success.json`、PNG 與 contact NPZ。
+The entry point checks pickup subcriteria and input SHA256 hashes, then recomputes object-coordinate contacts, synchronized label coverage, held-phase region distances, and the plot. Without a same-finger predicted region, distance is null rather than zero. Outputs are `results/screwdriver_success.json`, a PNG, and a contact NPZ.
 
-## 本地 MANO
+## Local MANO Assets
 
 ```bash
 python -m pip install -e '.[reconstruction,robot,test]'
@@ -21,11 +21,11 @@ python -m perception.export_mano \
   --output perception/hand_artifacts/mano_right.npz
 ```
 
-pickle 只能從可信、合法來源載入。可用 `MANO_ROOT` 指定 pickle 資料夾，`MANO_NPZ_ROOT` 指定匯出的 NPZ 資料夾。不要將權重提交到 repo。
+Load pickle files only from trusted, legally obtained sources. Use `MANO_ROOT` for the pickle directory and `MANO_NPZ_ROOT` for the exported NPZ directory. Do not commit weights to this repository.
 
-## 螺絲刀的重建輸入
+## Screwdriver Reconstruction Inputs
 
-準備原 ZIP、對應 canonical meter object OBJ 與桌面 metadata。原 ZIP SHA256 固定為 `4e2735400b5e44a28ac6f05bda926693ed2944c6dec787b1f7c8b0c32f8f92cb`；其他檔案不可冒充該實驗輸入。
+Prepare the original ZIP, the corresponding canonical object OBJ in meters, and table metadata. The original ZIP SHA256 is `4e2735400b5e44a28ac6f05bda926693ed2944c6dec787b1f7c8b0c32f8f92cb`; other files must not be substituted as this experiment's input.
 
 ```bash
 python -m perception.screwdriver_fit --prepare \
@@ -36,13 +36,13 @@ python -m perception.screwdriver_fit --prepare \
 python -m perception.screwdriver_fit --root private_inputs/screwdriver
 ```
 
-prepare 只抽取 HDF 與 sidecar，保留 object 與 MANO reference，不抽取影片。fit 使用零 MANO betas、骨長 least-squares scale、3D keypoint fitting、8 mm proximity 與 opposite-normal score 大於 0.5 的條件，再用穩定片段／dominant cluster 聚合接觸。原紀錄 scale 1.65208、fit mean 2.839 mm、median 1.705 mm、P90 8.049 mm；這是 keypoint fitting，不是 sim 接觸誤差。
+Preparation extracts only HDF and sidecar data, preserving object and MANO references without extracting video. Fitting uses zero MANO betas, a bone-length least-squares scale, 3D keypoint fitting, 8 mm proximity, and an opposite-normal score above 0.5, followed by contact aggregation over stable segments and the dominant cluster. The recorded scale is 1.65208, with fit mean 2.839 mm, median 1.705 mm, and P90 8.049 mm. These are keypoint-fitting measurements, not simulated contact errors.
 
-`perception/c2dex_reconstruction.py` 另提供有相機輸入時的 ray extraction，`perception/c2dex_optimize.py` 提供 MANO trajectory optimization。本輪螺絲刀成功案例的標籤只來自上述 3D fit 和 proximity 路徑，不能因 repo 提供完整模組就宣稱該案例執行了 silhouette-ray reconstruction 或 reconstruction trajectory optimization。
+`perception/c2dex_reconstruction.py` also provides ray extraction when camera inputs are available, and `perception/c2dex_optimize.py` provides MANO trajectory optimization. Labels for this successful screwdriver case come only from the 3D fitting and proximity path above. Providing these modules does not establish that this case ran silhouette-ray reconstruction or reconstruction trajectory optimization.
 
-## 接觸保留 retarget
+## Contact Preserving Retargeting
 
-先用本地合法的固定基座 Revo3 MuJoCo XML 匯出模型。`data/revo3_contract.json` 明確指定關節、keypoint 與 wrist-to-handroot rotation，不推測座標轉換。
+Export a model from a legally obtained local fixed-base Revo3 MuJoCo XML. `data/revo3_contract.json` explicitly specifies joints, keypoints, and wrist-to-handroot rotation; coordinate transforms are not inferred.
 
 ```bash
 python -m retarget.export_model \
@@ -64,22 +64,22 @@ python -m rl.derive_candidate \
   --robot-model private_inputs/screwdriver/robot_model.npz
 ```
 
-retarget 預設使用 500-step keypoint initializer、Adam learning rate 0.02 與 3000 次 joint-trajectory optimization。Laplacian、contact、penetration、smoothness 的權重為 500、20000、100000、1。固定代表接觸點、distance kernel、vertex-distance SDF、convex hull self-collision 與 regularizer 都是本實作的明確選擇，不是精確原作者 code rerun。robot 使用 Revo3 而非論文的 Inspire；沒有原始 ManipTrans。
+Retargeting defaults to a 500-step keypoint initializer, Adam learning rate 0.02, and 3000 joint-trajectory optimization steps. Laplacian, contact, penetration, and smoothness weights are 500, 20000, 100000, and 1. Fixed representative contacts, the distance kernel, vertex-distance SDF, convex-hull self-collision, and the regularizer are explicit implementation choices, not an exact rerun of the authors' code. The robot is Revo3 rather than the paper's Inspire, and the original ManipTrans is not included.
 
-portable exporter／HDF binding 使用相同 FK 與插值規則，但 fresh export、float32 FK 與 metadata 序列化可能產生新的檔案 SHA256。不能宣稱從這些公開介面產生的檔案與已量測實驗逐 byte 相同；公開 trace 的數值重算才是本 repo 可直接驗證的結果。
+The portable exporter and HDF binding use the same FK and interpolation rules, but fresh exports, float32 FK, and metadata serialization may produce different file SHA256 hashes. Files generated through these public interfaces must not be described as byte-identical to the measured experiment. Numerical recomputation from the published trace is the result directly verifiable in this repository.
 
-## 28 DOF 與 PPO 接入
+## 28 DOF and PPO Integration
 
-將指定分支以合法存取方式取得到 `private_inputs/screwdriver/baseline_repo`，固定到 `5c409994e4e04fd131aa46ad8441480da025c7fd`。資產需符合 robot SHA256 `f8987c6c43e0f0a6fee02d13864b1bd59f0a976383ea8dce2da0dc46ba6c67ae`，原 checkpoint SHA256 需符合 `data/screwdriver/metadata.json`。
+Obtain the specified branch through authorized access at `private_inputs/screwdriver/baseline_repo`, pinned to `5c409994e4e04fd131aa46ad8441480da025c7fd`. The robot asset must match SHA256 `f8987c6c43e0f0a6fee02d13864b1bd59f0a976383ea8dce2da0dc46ba6c67ae`, and the original checkpoint hash must match `data/screwdriver/metadata.json`.
 
 ```bash
 python -m rl.c2dex_reduced28_inputs \
   --root private_inputs/screwdriver --output-name reduced28_v2
 ```
 
-這一步使用該分支的 base、FK 與 joint limits，為兩組 wrist 軌跡重新求解 28 DOF IK。不可直接使用 ZIP 中原 58-joint assembly 的 sidecar。兩組採用相同 270 幀 Makima／Slerp 插值；IK reachability report 是診斷，不是額外物理成功門檻。
+This step recomputes 28 DOF IK for both wrist trajectories using the branch's base, FK, and joint limits. Do not directly reuse the ZIP's original 58-joint assembly sidecar. Both trajectories use the same 270-frame Makima/Slerp interpolation. The IK reachability report is diagnostic, not an additional physical success gate.
 
-在具有 Isaac Sim 5.1、Isaac Lab、torch CUDA、rsl-rl 3.0.1 的環境中安裝外部 baseline package，並確認只指定一張空閒 GPU。native task 建構時仍需合法的原 bank 路徑，但 adapter 隨後會將它停用，不作為新 ZIP 訓練資料。
+Install the external baseline package in an environment with Isaac Sim 5.1, Isaac Lab, torch CUDA, and rsl-rl 3.0.1, and select only one idle GPU. Native task construction still requires an authorized original bank path, but the adapter subsequently disables that bank; it is not used as training data for the new ZIP.
 
 ```bash
 export REGRIND_ROOT="$PWD/private_inputs/screwdriver/baseline_repo"
@@ -87,7 +87,7 @@ export REGRIND_DATA_DIR="$REGRIND_ROOT/data"
 export REGRIND_ARM_RESET_BANK_PATH="$REGRIND_DATA_DIR/precomputedik/augmented_arm_reset_bank_1024.npz"
 export REGRIND_ARM_RESET_SOURCE_URDF_PATH="$REGRIND_ROOT/source/regrind/regrind/assets/tron2_axis180/assembly_bilateral_axis180_reduced28_physicsfix.urdf"
 export PYTHONPATH="$REGRIND_ROOT/source/regrind:$PWD"
-# 在 shell 外先確認 GPU 空閒，再設定 CUDA_VISIBLE_DEVICES 為該張 GPU。
+# Check that a GPU is idle, then set CUDA_VISIBLE_DEVICES to that GPU before running.
 python -m rl.c2dex_reduced28_train \
   --inputs private_inputs/screwdriver/reduced28_v2/baseline \
   --output private_inputs/screwdriver/training_baseline \
@@ -95,10 +95,10 @@ python -m rl.c2dex_reduced28_train \
   --updates 200 --num-envs 512 --headless
 ```
 
-retarget 接入可將 `--inputs` 換為同 root 下的 `candidate`，使用另一個 exclusive output 並從相同原 checkpoint 起跑。程式會停用 DR、外部 bank、擾動與 augmentation，保留原 reward／PPO 架構及訓練 RSI。只提供接入程式，不將未成功拿取的訓練結果列入公開比較。
+For retarget integration, change `--inputs` to `candidate` under the same root, use a separate exclusive output directory, and start from the same original checkpoint. The code disables DR, the external bank, perturbations, and augmentation while retaining the original reward/PPO architecture and training RSI. Integration code is provided, but training outcomes without successful pickup are excluded from the published comparison.
 
-## 物理評估契約
+## Physical Evaluation Contract
 
-重新訓練後還需外部 baseline 的實際物理 evaluator，不能只用 training reward 或本 repo 的 postprocessing 宣告任務成功。已發佈案例使用同分支的任務控制，加上 task-local evaluator adapter：從零幀開始、無 RSI／擾動／DR、物體只在初始化寫入、阻止 auto-reset，並記錄实际姿態和 object-filtered fingertip centroids。PPO action 在 reference frame t 計算，推進到 t+1。
+New training requires the external baseline's actual physics evaluator. Neither training reward nor this repository's postprocessing is sufficient to declare task success. The published case uses the same branch's task control with a task-local evaluator adapter: start at frame zero, disable RSI/perturbations/DR, write the object only at initialization, prevent auto-reset, and record actual poses and object-filtered fingertip centroids. PPO actions are computed at reference frame t and advance to t+1.
 
-原完整任務門檻包含 lift 5 cm、hold height 3 cm／0.5 s、position RMSE 3 cm／max 8 cm、rotation RMSE 15°／max 30°，以及初始姿態正確、全軌跡結束、物理有效、無 silent reset。公開成功案例通過拿取／持握與位置條件，但旋轉失敗；完整 evaluator 不打包成可一鍵新 physics rerun，已量測的成功 trace 則可獨立重算。
+The original complete task thresholds include lift 5 cm, hold height 3 cm for 0.5 s, position RMSE 3 cm and maximum 8 cm, rotation RMSE 15° and maximum 30°, plus correct initialization, completion of the full trajectory, valid physics, and no silent reset. The published case passes pickup/hold and position criteria but fails rotation. The full evaluator is not packaged as a one-command new physics rerun; the measured successful trace can be recomputed independently.
