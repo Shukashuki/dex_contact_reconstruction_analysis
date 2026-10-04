@@ -1,0 +1,1 @@
+"""Independent contact reconstruction implementation."""

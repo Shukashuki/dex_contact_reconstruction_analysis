@@ -1,0 +1,82 @@
+{
+  "task": "Regrind-Tron2-Revo3-Screwdriver-PrecomputedIK-v0",
+  "algorithm": "rl",
+  "seed": 42,
+  "num_trials": 1,
+  "step_dt_s": 0.03333333333333333,
+  "frames_replayed": 270,
+  "reference_frames": 270,
+  "scored_reference_frames": 270,
+  "evaluation_scope": "full_trajectory",
+  "thresholds": {
+    "lift_height_m": 0.05,
+    "hold_height_m": 0.03,
+    "hold_seconds": 0.5,
+    "position_rmse_m": 0.03,
+    "position_max_m": 0.08,
+    "rotation_rmse_rad": 0.2617993877991494,
+    "rotation_max_rad": 0.5235987755982988,
+    "initial_position_m": 0.0001,
+    "initial_rotation_rad": 0.0009999999997716703,
+    "object_joint_rmse": null
+  },
+  "trials": [
+    {
+      "trial": 0,
+      "seed": 42,
+      "success": false,
+      "initial_state_valid": true,
+      "reached_reference_end": true,
+      "physics_valid": true,
+      "max_relative_lift_m": 0.3190702199935913,
+      "final_relative_lift_m": 0.278312087059021,
+      "max_hold_seconds": 7.333333333333333,
+      "position_rmse_m": 0.017683732805306412,
+      "position_max_m": 0.07275276768821366,
+      "position_final_m": 0.013512216893983941,
+      "rotation_rmse_rad": 1.6592077696540413,
+      "rotation_max_rad": 3.1030973253768197,
+      "rotation_final_rad": 2.7865792543159116,
+      "initial_position_error_m": 0.0,
+      "initial_rotation_error_rad": 5.1619136559035694e-08,
+      "object_joint_rmse": null,
+      "failure_reasons": [
+        "rotation_rmse_exceeded",
+        "rotation_max_exceeded"
+      ],
+      "object_contact_diagnostics_available": true,
+      "max_object_contact_count": 4,
+      "max_three_finger_contact_seconds": 1.1333333333333333,
+      "mean_contact_slip_speed_m_s": 0.06872834265232086,
+      "silent_reset_count": 0,
+      "first_silent_reset_frame": null
+    }
+  ],
+  "evaluation_status": "completed",
+  "evaluation_contract": {
+    "object_write_policy": "initialization_only",
+    "gravity_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ],
+    "rsi_enabled": false,
+    "explicit_start_task_frame": 0,
+    "reset_perturbation": false,
+    "patched_termination_terms": [
+      "time_out",
+      "demo_end_reached",
+      "rsi_suffix_end_reached",
+      "object_deviation",
+      "object_out_of_bounds",
+      "hand_far_from_object",
+      "hit_table"
+    ],
+    "runtime_reset_detection": "episode_length_must_increment_by_exactly_one_per_step",
+    "minimum_grasp_contacts": 3,
+    "contact_force_threshold_n": 0.1,
+    "control_replay_policy": "online_deterministic_PPO",
+    "protocol_adaptation": "task-local 28-DOF ZIP binding and optional online PPO; upstream scoring thresholds unchanged",
+    "policy_checkpoint": "sha256:ad4773236c3872c7d7e62a78a6f13ffded8d1c6690d6f261869552de995d3871"
+  }
+}

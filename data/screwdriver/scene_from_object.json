@@ -1,0 +1,9 @@
+{
+  "table": {
+    "center_m": [0.2764393782702718, 0.39253473731213084, 0.30391915044228396],
+    "size_m": [0.7, 0.7, 0.4],
+    "top_m": 0.503919150442284
+  },
+  "method": "recorded front-table support height from unchanged reference frame zero",
+  "reference_sha256": "0b5be201005dd9ad11c36430ace61284d180384ffce62b56e4b27339aa9d5b28"
+}

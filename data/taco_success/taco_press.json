@@ -1,0 +1,95 @@
+{
+  "frames": 121,
+  "predicted_contact_frames": 99,
+  "sim_contact_frames": 50,
+  "overlap_frames": 44,
+  "temporal_iou": 0.41904761904761906,
+  "predicted_frame_recall": 0.4444444444444444,
+  "sim_frame_precision": 0.88,
+  "prediction_to_sim": {
+    "count": 2288,
+    "mean_mm": 66.31847975220593,
+    "median_mm": 59.59359655375515,
+    "p90_mm": 119.8838594237145
+  },
+  "sim_to_prediction": {
+    "count": 941,
+    "mean_mm": 48.97642985962949,
+    "median_mm": 32.7082694282913,
+    "p90_mm": 122.98172836614911
+  },
+  "symmetric_chamfer_mean_mm": 57.64745480591771,
+  "thresholds": {
+    "5mm": {
+      "prediction_coverage": 0.007867132867132868,
+      "sim_precision": 0.053134962805526036
+    },
+    "10mm": {
+      "prediction_coverage": 0.036276223776223776,
+      "sim_precision": 0.13708820403825717
+    },
+    "20mm": {
+      "prediction_coverage": 0.10708041958041958,
+      "sim_precision": 0.3188097768331562
+    }
+  },
+  "scope": "object-canonical point-set agreement; cross-embodiment, no finger correspondence",
+  "held_aloft_comparison": {
+    "frames": 121,
+    "predicted_contact_frames": 2,
+    "sim_contact_frames": 2,
+    "overlap_frames": 2,
+    "temporal_iou": 1.0,
+    "predicted_frame_recall": 1.0,
+    "sim_frame_precision": 1.0,
+    "prediction_to_sim": {
+      "count": 104,
+      "mean_mm": 113.68054214811625,
+      "median_mm": 114.17157091241953,
+      "p90_mm": 128.7410007861431
+    },
+    "sim_to_prediction": {
+      "count": 156,
+      "mean_mm": 124.42852440316459,
+      "median_mm": 121.50504646312694,
+      "p90_mm": 168.4505756986966
+    },
+    "symmetric_chamfer_mean_mm": 119.05453327564041,
+    "thresholds": {
+      "5mm": {
+        "prediction_coverage": 0.0,
+        "sim_precision": 0.0
+      },
+      "10mm": {
+        "prediction_coverage": 0.0,
+        "sim_precision": 0.0
+      },
+      "20mm": {
+        "prediction_coverage": 0.0,
+        "sim_precision": 0.0
+      }
+    },
+    "scope": "object-canonical point-set agreement; cross-embodiment, no finger correspondence",
+    "frame_indices": [
+      113,
+      114
+    ],
+    "criterion": "sim object >3cm above initial and hand-object contact present"
+  },
+  "prediction": "perception/output/c2dex_taco_20231013_304_left.contacts.npz",
+  "simulation": "retarget/output/debug/rollout_c2dex_contact_replay_success_20231013_304_left.npz",
+  "sim_raw_contact_points": 4412,
+  "sim_unique_contact_points": 1289,
+  "dedup_radius_mm": 1.0,
+  "physics": {
+    "ref_lifts": true,
+    "obj_lifted": true,
+    "gate_criterion_met": true,
+    "sim_lift_m": 0.03563625272183957,
+    "held_aloft_frames": 2,
+    "mode": "floating_wrist (EgoEngine C.2)",
+    "init_frame": 0
+  },
+  "source_comparison_sha256": "48037ec2e7cc455a9595461de27004e879f1a8db41786855d20367ee4d789cc7",
+  "source_physics_sha256": "2603c848d5f977213561c3f8cdc14470821db35167174121056938b3ac8159a4"
+}

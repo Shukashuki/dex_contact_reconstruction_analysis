@@ -1,0 +1,25 @@
+{
+  "case": "front table screwdriver ZIP",
+  "robot_dof": 28,
+  "seed": 42,
+  "baseline_commit": "5c409994e4e04fd131aa46ad8441480da025c7fd",
+  "original_checkpoint_sha256": "87fa35f2ea6af757c35887b0fd59bb496fd17099a73dc0649815cb9ccba4d278",
+  "finetuned_checkpoint_sha256": "ad4773236c3872c7d7e62a78a6f13ffded8d1c6690d6f261869552de995d3871",
+  "robot_sha256": "f8987c6c43e0f0a6fee02d13864b1bd59f0a976383ea8dce2da0dc46ba6c67ae",
+  "archive_sha256": "4e2735400b5e44a28ac6f05bda926693ed2944c6dec787b1f7c8b0c32f8f92cb",
+  "object_usd_sha256": "b1fe99d202f127b7fd696771f39f97537c6bd6877a88a0c04709619093ab9a06",
+  "canonical_mesh_axis": [
+    -0.0006888681599576548,
+    0.9999804713608974,
+    0.0062114698337985
+  ],
+  "original_trace_sha256": "7d0b12ccd98fa6901224a64701249a7db576ab940ceaa9f20d4335ca3a138c7f",
+  "published_trace_sha256": "8ce1082f26de525d693d36d15d3835c09ed8906029181fc98485292d4870c67c",
+  "predictions_sha256": "dcbcffcae77e3b2dc027607c40b5edff7cd4fc210c6369613f526c479133cec5",
+  "summary_sha256": "3ad03c4e875363fb167fc39743f52237bda22305ea83f6ff4f63652541a45176",
+  "success_definition": "lift >=5 cm and hold >3 cm for >=0.5 s; full rotation task success is separate",
+  "predicted_labels": "C2Dex-style 3D proximity contacts; no camera rays in the screwdriver ZIP",
+  "checkpoint_lineage": "original checkpoint used a different demo; only additional fine-tuning is ZIP-only",
+  "case_condition": "baseline without contact-preserving C2Dex retarget; no matched reconstructed successful pickup",
+  "data_policy": "derived contact/pose arrays only; no MANO weights, source archive, robot meshes or checkpoints"
+}

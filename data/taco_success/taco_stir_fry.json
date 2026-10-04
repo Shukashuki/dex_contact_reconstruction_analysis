@@ -1,0 +1,170 @@
+{
+  "frames": 144,
+  "predicted_contact_frames": 112,
+  "sim_contact_frames": 114,
+  "overlap_frames": 109,
+  "temporal_iou": 0.9316239316239316,
+  "predicted_frame_recall": 0.9732142857142857,
+  "sim_frame_precision": 0.956140350877193,
+  "prediction_to_sim": {
+    "count": 1792,
+    "mean_mm": 41.29855541717548,
+    "median_mm": 22.303519473416895,
+    "p90_mm": 102.90341590064796
+  },
+  "sim_to_prediction": {
+    "count": 2124,
+    "mean_mm": 38.43755703767824,
+    "median_mm": 25.18723656546834,
+    "p90_mm": 90.84281136340637
+  },
+  "symmetric_chamfer_mean_mm": 39.86805622742686,
+  "thresholds": {
+    "5mm": {
+      "prediction_coverage": 0.04966517857142857,
+      "sim_precision": 0.06591337099811675
+    },
+    "10mm": {
+      "prediction_coverage": 0.16796875,
+      "sim_precision": 0.1864406779661017
+    },
+    "20mm": {
+      "prediction_coverage": 0.43526785714285715,
+      "sim_precision": 0.3851224105461394
+    }
+  },
+  "scope": "object-canonical point-set agreement; cross-embodiment, no finger correspondence",
+  "held_aloft_comparison": {
+    "frames": 144,
+    "predicted_contact_frames": 76,
+    "sim_contact_frames": 77,
+    "overlap_frames": 76,
+    "temporal_iou": 0.987012987012987,
+    "predicted_frame_recall": 1.0,
+    "sim_frame_precision": 0.987012987012987,
+    "prediction_to_sim": {
+      "count": 1083,
+      "mean_mm": 43.7794060093673,
+      "median_mm": 24.72158155589814,
+      "p90_mm": 100.58712388406951
+    },
+    "sim_to_prediction": {
+      "count": 1279,
+      "mean_mm": 51.84672515015213,
+      "median_mm": 49.718098328055255,
+      "p90_mm": 101.41756677263993
+    },
+    "symmetric_chamfer_mean_mm": 47.813065579759716,
+    "thresholds": {
+      "5mm": {
+        "prediction_coverage": 0.02585410895660203,
+        "sim_precision": 0.0328381548084441
+      },
+      "10mm": {
+        "prediction_coverage": 0.0886426592797784,
+        "sim_precision": 0.08209538702111024
+      },
+      "20mm": {
+        "prediction_coverage": 0.37950138504155123,
+        "sim_precision": 0.2259577795152463
+      }
+    },
+    "scope": "object-canonical point-set agreement; cross-embodiment, no finger correspondence",
+    "frame_indices": [
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      125,
+      126,
+      127
+    ],
+    "criterion": "sim object >3cm above initial and hand-object contact present"
+  },
+  "prediction": "perception/output/c2dex_stir-fry__20231104_156_right_full.contacts.npz",
+  "simulation": "retarget/output/debug/rollout_c2dex_contact_replay_success_stir-fry__20231104_156_right.npz",
+  "sim_raw_contact_points": 9606,
+  "sim_unique_contact_points": 2201,
+  "dedup_radius_mm": 1.0,
+  "physics": {
+    "ref_lifts": true,
+    "obj_lifted": true,
+    "gate_criterion_met": true,
+    "sim_lift_m": 0.23854970000910136,
+    "held_aloft_frames": 77,
+    "mode": "floating_wrist (EgoEngine C.2)",
+    "init_frame": 8
+  },
+  "source_comparison_sha256": "8fc5eaeff57d3a62d993c0312435ee666c64235894f7f4437aea7040d56412f8",
+  "source_physics_sha256": "a4dad87da27433188f3dc6d25f5f27b4c5dcc65ccdbd5b7c963c008bf763a3da"
+}

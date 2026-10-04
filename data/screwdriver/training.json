@@ -1,0 +1,13 @@
+{
+  "completed": true,
+  "initial_iteration": 5200,
+  "final_iteration": 5399,
+  "additional_updates": 200,
+  "environments": 512,
+  "rollout_steps": 24,
+  "transitions": 2457600,
+  "wall_seconds": 582.4319489747286,
+  "scope": "bounded paired ZIP-only nominal/no-DR fine-tuning, not original full training reproduction",
+  "initial_checkpoint": "model_5200.pt",
+  "final_checkpoint_sha256": "ad4773236c3872c7d7e62a78a6f13ffded8d1c6690d6f261869552de995d3871"
+}
